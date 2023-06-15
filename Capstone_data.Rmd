@@ -1,0 +1,39 @@
+---
+title: "Capstone_Project"
+output: html_document
+date: '2023-06-14'
+---
+
+
+```{r}
+library(readr)
+library(dplyr)
+library(lubridate)
+library(baseballr)
+
+# Step 1: Initialize an empty dataframe called stats
+stats <- data.frame()
+
+# Step 2: Read in each CSV from the folder and add it to stats dataframe
+folder_path <- "/Users/benkowalski/Downloads/Fangraphs_Tables/"
+
+for (i in 1:179) {
+  # Create the file path
+  file_path <- paste0(folder_path, "FanGraphs Leaderboard (", i, ").csv")
+ 
+  # Read the CSV file into a dataframe
+  df <- read_csv(file_path)
+ 
+  # Step 3: Add a column called date to the df
+  date <- as.Date("2022-04-10") + days(i - 1)
+  df$date <- date
+ 
+  # Step 4: Add the data from the CSV to the stats dataframe
+  stats <- bind_rows(stats, df)
+}
+
+stats <- stats %>%
+  select(date, everything())
+
+```
+
